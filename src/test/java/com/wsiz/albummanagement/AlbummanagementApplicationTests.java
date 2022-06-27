@@ -1,8 +1,5 @@
 package com.wsiz.albummanagement;
 
-import java.util.Calendar;
-import java.util.Optional;
-
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -183,6 +180,12 @@ class AlbummanagementApplicationTests {
 		Assertions.assertThrows(CategoryException.class, () -> {
 			ResponseEntity<?> response = this.albumManagementController.deleteCategory("222222ac");
 		});
+	}
+
+	@Test
+	public void getCategoryWithValidData() {
+		ResponseEntity<Category> response = this.albumManagementController.getCategory("Category1");
+		assertThat(response.getBody().getName(), Is.is("Category1"));
 	}
 
 }
