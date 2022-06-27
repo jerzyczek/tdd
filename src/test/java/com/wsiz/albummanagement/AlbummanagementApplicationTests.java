@@ -47,5 +47,13 @@ class AlbummanagementApplicationTests {
 		});
 	}
 
+	@Test
+	public void saveAlbumWithNullShouldThrowNameException() {
+		final AlbumRequest albumRequest = null;
+		Assertions.assertThrows(NameException.class, () -> {
+			ResponseEntity<?> response = this.albumManagementController.saveAlbum(albumRequest);
+		});
+	}
+
 
 }
