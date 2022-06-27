@@ -91,4 +91,16 @@ class AlbummanagementApplicationTests {
 			ResponseEntity<?> response = this.albumManagementController.editAlbumById(albumRequest);
 		});
 	}
+
+	@Test
+	public void editAuthorNullShouldThrowNameException() {
+		final AlbumRequest albumRequest = new AlbumRequest();
+		albumRequest.setId(1L);
+		albumRequest.setName("Name22");
+		albumRequest.setAuthor(null);
+
+		Assertions.assertThrows(NameException.class, () -> {
+			ResponseEntity<?> response = this.albumManagementController.editAlbumById(albumRequest);
+		});
+	}
 }
