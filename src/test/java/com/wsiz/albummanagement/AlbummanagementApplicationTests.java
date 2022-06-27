@@ -1,6 +1,7 @@
 package com.wsiz.albummanagement;
 
 import org.hamcrest.core.Is;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -26,12 +27,14 @@ class AlbummanagementApplicationTests {
 		assertThat(response.getStatusCode(), Is.is(HttpStatus.OK));
 	}
 
-	@Test(expected = NameException.class)
+	@Test
 	public void saveAlbumWithNullNameShouldThrowNameException() {
 		final AlbumRequest albumRequest = new AlbumRequest();
 		albumRequest.setName(null);
 		albumRequest.setAuthor("Author1");
-		ResponseEntity<?> response = this.albumManagementController.saveAlbum(albumRequest);
+		Assertions.assertThrows(NameException.class, () -> {
+			ResponseEntity<?> response = this.albumManagementController.saveAlbum(albumRequest);
+		});
 	}
 
 }
