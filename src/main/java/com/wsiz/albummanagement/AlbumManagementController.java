@@ -49,6 +49,11 @@ public class AlbumManagementController {
     @DeleteMapping("/album/{name}")
     public ResponseEntity<?> deleteAlbum(@PathVariable String name) {
         Optional<AlbumRequest> albumRequest = this.albumManagementRepository.findByName(name);
+
+        if (!albumRequest.isPresent()) {
+            throw new AlbumNotFoundException();
+        }
+
         this.albumManagementRepository.delete(albumRequest.get());
         return ResponseEntity.ok().build();
     }
