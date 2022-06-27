@@ -30,6 +30,7 @@ public class AlbumManagementController {
 
     @PutMapping("/album")
     public ResponseEntity<AlbumRequest> editAlbumById(@RequestBody AlbumRequest albumRequest) {
+        validateAlbumData(albumRequest);
         Optional<AlbumRequest> albumRequestOptional = this.albumManagementRepository.findById(albumRequest.getId());
 
         AlbumRequest albumRequestToSave = albumRequestOptional.get();
