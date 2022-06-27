@@ -22,6 +22,9 @@ public class AlbumManagementController {
     @Autowired
     private AlbumManagementRepository albumManagementRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @PostMapping("/album")
     public ResponseEntity<?> saveAlbum(@RequestBody final AlbumRequest albumRequest) {
 
@@ -68,6 +71,12 @@ public class AlbumManagementController {
         }
 
         throw new AlbumNotFoundException();
+    }
+
+    @PostMapping("/category")
+    public ResponseEntity<?> saveCategory(@RequestBody Category category) {
+        this.categoryRepository.save(category);
+        return ResponseEntity.ok().build();
     }
 
     private void validateAlbumData(final AlbumRequest albumRequest) {
