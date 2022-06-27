@@ -26,4 +26,12 @@ class AlbummanagementApplicationTests {
 		assertThat(response.getStatusCode(), Is.is(HttpStatus.OK));
 	}
 
+	@Test(expected = NameException.class)
+	public void saveAlbumWithNullNameShouldThrowNameException() {
+		final AlbumRequest albumRequest = new AlbumRequest();
+		albumRequest.setName(null);
+		albumRequest.setAuthor("Author1");
+		ResponseEntity<?> response = this.albumManagementController.saveAlbum(albumRequest);
+	}
+
 }
