@@ -113,7 +113,7 @@ class AlbummanagementApplicationTests {
 	@Test
 	public void deleteAlbumByNameAlbumNotFoundShouldThrowAlbumNotFoundException() {
 		Assertions.assertThrows(AlbumNotFoundException.class, () -> {
-			ResponseEntity<?> response = this.albumManagementController.deleteAlbum("Name1");
+			ResponseEntity<?> response = this.albumManagementController.deleteAlbum("Name166");
 		});
 	}
 }
