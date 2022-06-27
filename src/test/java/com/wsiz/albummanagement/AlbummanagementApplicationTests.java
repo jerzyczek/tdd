@@ -2,6 +2,7 @@ package com.wsiz.albummanagement;
 
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -17,6 +18,18 @@ class AlbummanagementApplicationTests {
 
 	@Autowired
 	private AlbumManagementController albumManagementController;
+
+	@Autowired
+	private AlbumManagementRepository albumManagementRepository;
+
+	@BeforeEach
+	public void setup() {
+		final AlbumRequest albumRequest = new AlbumRequest();
+		albumRequest.setId(1L);
+		albumRequest.setName("Name1");
+		albumRequest.setAuthor("Author1");
+		this.albumManagementRepository.save(albumRequest);
+	}
 
 	@Test
 	public void saveAlbumWithValidDataShouldReturn200StatusCode() {
@@ -55,5 +68,15 @@ class AlbummanagementApplicationTests {
 		});
 	}
 
+	@Test
+	public void editAlbumWithValidDataShouldEditAlbum() {
+		final AlbumRequest albumRequest = new AlbumRequest();
+		albumRequest.setId(1L);
+		albumRequest.setName("Name44");
+		albumRequest.setAuthor("Author44");
 
+		ResponseEntity<AlbumRequest> response = this.albumManagementController.editAlbumById(albumRequest);
+		assertThat(response.getBody().getAuthor(), Is.is("Author44"));
+		assertThat(response.getBody().getName(), Is.is("Name44"));
+	}
 }
