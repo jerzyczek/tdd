@@ -178,4 +178,11 @@ class AlbummanagementApplicationTests {
 		assertThat(response.getStatusCode(), Is.is(HttpStatus.OK));
 	}
 
+	@Test
+	public void deleteCategoryCategoryNotFoundShouldThrowCategoryException() {
+		Assertions.assertThrows(CategoryException.class, () -> {
+			ResponseEntity<?> response = this.albumManagementController.deleteCategory("222222ac");
+		});
+	}
+
 }
