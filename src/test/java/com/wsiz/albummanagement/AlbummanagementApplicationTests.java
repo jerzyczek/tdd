@@ -103,4 +103,10 @@ class AlbummanagementApplicationTests {
 			ResponseEntity<?> response = this.albumManagementController.editAlbumById(albumRequest);
 		});
 	}
+
+	@Test
+	public void deleteAlbumByName() {
+		ResponseEntity<?> response = this.albumManagementController.deleteAlbum("Name1");
+		assertThat(response.getStatusCode(), Is.is(HttpStatus.OK));
+	}
 }
