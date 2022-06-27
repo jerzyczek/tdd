@@ -172,4 +172,10 @@ class AlbummanagementApplicationTests {
 		assertThat(response.getBody().getName(), Is.is("Category222"));
 	}
 
+	@Test
+	public void deleteCategoryByName() {
+		ResponseEntity<?> response = this.albumManagementController.deleteCategory("Category1");
+		assertThat(response.getStatusCode(), Is.is(HttpStatus.OK));
+	}
+
 }
