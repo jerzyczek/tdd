@@ -116,4 +116,12 @@ class AlbummanagementApplicationTests {
 			ResponseEntity<?> response = this.albumManagementController.deleteAlbum("Name166");
 		});
 	}
+
+	@Test
+	public void findAlbumShouldReturnAlbumEntity() {
+		ResponseEntity<AlbumRequest> response = this.albumManagementController.findAlbum("Name1");
+		assertThat(response.getBody().getName(), Is.is("Name1"));
+		assertThat(response.getBody().getAuthor(), Is.is("Author1"));
+	}
+
 }
