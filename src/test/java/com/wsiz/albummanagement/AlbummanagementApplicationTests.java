@@ -1,5 +1,8 @@
 package com.wsiz.albummanagement;
 
+import java.util.Calendar;
+import java.util.Optional;
+
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -25,6 +28,9 @@ class AlbummanagementApplicationTests {
 	private AlbumManagementRepository albumManagementRepository;
 
 	@Autowired
+	private CategoryRepository categoryRepository;
+
+	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
 	@BeforeEach
@@ -34,11 +40,17 @@ class AlbummanagementApplicationTests {
 		albumRequest.setName("Name1");
 		albumRequest.setAuthor("Author1");
 		this.albumManagementRepository.save(albumRequest);
+
+		final Category category1 = new Category();
+		category1.setId(2L);
+		category1.setName("Category1");
+		this.categoryRepository.save(category1);
 	}
 
 	@AfterEach
 	public void execute() {
 		this.jdbcTemplate.execute("TRUNCATE TABLE album" );
+		this.jdbcTemplate.execute("TRUNCATE TABLE category" );
 	}
 
 	@Test
@@ -149,6 +161,15 @@ class AlbummanagementApplicationTests {
 		Assertions.assertThrows(CategoryException.class, () -> {
 			ResponseEntity<?> response = this.albumManagementController.saveCategory(category);
 		});
+	}
+
+	@Test
+	public void editCategoryWithValidDataShouldTReturnCategory() {
+		final Category category = new Category();
+		category.setId(2L);
+		category.setName("Category222");
+		ResponseEntity<Category> response = this.albumManagementController.editCategory(category);
+		assertThat(response.getBody().getName(), Is.is("Category222"));
 	}
 
 }
