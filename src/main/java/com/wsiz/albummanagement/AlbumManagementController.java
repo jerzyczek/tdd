@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -111,6 +109,17 @@ public class AlbumManagementController {
 
         this.categoryRepository.delete(category.get());
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/album/{name}")
+    public ResponseEntity<Category> getCategory(@PathVariable String name) {
+        Optional<Category> category = this.categoryRepository.findByName(name);
+
+        if (!category.isPresent()) {
+            throw new CategoryException();
+        }
+
+        return ResponseEntity.ok(category.get());
     }
 
     private void validateAlbumData(final AlbumRequest albumRequest) {
