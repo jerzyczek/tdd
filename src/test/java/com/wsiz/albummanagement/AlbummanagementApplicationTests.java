@@ -10,7 +10,7 @@ class AlbummanagementApplicationTests {
 
 	@Test
 	public void saveAlbumWithValidDataShouldReturn200StatusCode() {
-
+		final AlbumRequest albumRequest = new AlbumRequest();
 	}
 
 }
