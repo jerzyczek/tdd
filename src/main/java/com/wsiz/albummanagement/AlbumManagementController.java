@@ -81,6 +81,26 @@ public class AlbumManagementController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/category")
+    public ResponseEntity<Category> editCategory(@RequestBody Category category) {
+        Optional<Category> categoryFromDatabase = this.categoryRepository.findById(category.getId());
+
+        if (!categoryFromDatabase.isPresent()) {
+            throw new CategoryException();
+        }
+
+        Category categoryToEdit = categoryFromDatabase.get();
+        categoryToEdit.setName(category.getName());
+        this.categoryRepository.save(categoryToEdit);
+
+        Optional<Category> categorySaved = this.categoryRepository.findByName(category.getName());
+        if (!categorySaved.isPresent()) {
+            throw new CategoryException();
+        }
+
+        return ResponseEntity.ok(categorySaved.get());
+    }
+
     private void validateAlbumData(final AlbumRequest albumRequest) {
 
         if (Objects.isNull(albumRequest)) {
