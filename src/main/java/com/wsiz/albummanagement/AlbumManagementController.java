@@ -26,6 +26,11 @@ public class AlbumManagementController {
     }
 
     private void validateAlbumData(final AlbumRequest albumRequest) {
+
+        if (Objects.isNull(albumRequest)) {
+            throw new NameException();
+        }
+
         if (Objects.isNull(albumRequest.getName())) {
             throw new NameException();
         }
