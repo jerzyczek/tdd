@@ -142,4 +142,13 @@ class AlbummanagementApplicationTests {
 		assertThat(response.getStatusCode(), Is.is(HttpStatus.OK));
 	}
 
+	@Test
+	public void saveCategoryWithInValidDataShouldThrowCategoryException() {
+		final Category category = new Category();
+		category.setName(null);
+		Assertions.assertThrows(CategoryException.class, () -> {
+			ResponseEntity<?> response = this.albumManagementController.saveCategory(category);
+		});
+	}
+
 }
