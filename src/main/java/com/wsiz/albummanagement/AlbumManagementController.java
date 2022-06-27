@@ -101,6 +101,18 @@ public class AlbumManagementController {
         return ResponseEntity.ok(categorySaved.get());
     }
 
+    @DeleteMapping("/category/{name}")
+    public ResponseEntity<?> deleteCategory(@PathVariable String name) {
+        Optional<Category> category = this.categoryRepository.findByName(name);
+
+        if (!category.isPresent()) {
+            throw new CategoryException();
+        }
+
+        this.categoryRepository.delete(category.get());
+        return ResponseEntity.ok().build();
+    }
+
     private void validateAlbumData(final AlbumRequest albumRequest) {
 
         if (Objects.isNull(albumRequest)) {
