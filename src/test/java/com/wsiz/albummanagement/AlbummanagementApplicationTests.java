@@ -79,4 +79,16 @@ class AlbummanagementApplicationTests {
 		assertThat(response.getBody().getAuthor(), Is.is("Author44"));
 		assertThat(response.getBody().getName(), Is.is("Name44"));
 	}
+
+	@Test
+	public void editAlbumNameNullShouldThrowNameException() {
+		final AlbumRequest albumRequest = new AlbumRequest();
+		albumRequest.setId(1L);
+		albumRequest.setName(null);
+		albumRequest.setAuthor("Author44");
+
+		Assertions.assertThrows(NameException.class, () -> {
+			ResponseEntity<?> response = this.albumManagementController.editAlbumById(albumRequest);
+		});
+	}
 }
