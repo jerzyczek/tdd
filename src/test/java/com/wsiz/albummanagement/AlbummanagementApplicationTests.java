@@ -37,4 +37,15 @@ class AlbummanagementApplicationTests {
 		});
 	}
 
+	@Test
+	public void saveAlbumWithNullAuthorShouldThrowNameException() {
+		final AlbumRequest albumRequest = new AlbumRequest();
+		albumRequest.setName("Name1");
+		albumRequest.setAuthor(null);
+		Assertions.assertThrows(NameException.class, () -> {
+			ResponseEntity<?> response = this.albumManagementController.saveAlbum(albumRequest);
+		});
+	}
+
+
 }
