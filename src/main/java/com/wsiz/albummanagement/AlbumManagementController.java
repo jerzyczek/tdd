@@ -1,2 +1,23 @@
-package com.wsiz.albummanagement;public class AlbumManagementController {
+package com.wsiz.albummanagement;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api")
+public class AlbumManagementController {
+
+    @Autowired
+    private AlbumManagementRepository albumManagementRepository;
+
+    @PostMapping("/album")
+    public ResponseEntity<?> saveAlbum(@RequestBody final AlbumRequest albumRequest) {
+        this.albumManagementRepository.save(albumRequest);
+        return ResponseEntity.ok().build();
+    }
+
 }
