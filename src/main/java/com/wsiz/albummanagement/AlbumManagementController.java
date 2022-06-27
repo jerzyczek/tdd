@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -75,6 +76,7 @@ public class AlbumManagementController {
 
     @PostMapping("/category")
     public ResponseEntity<?> saveCategory(@RequestBody Category category) {
+        validateCategory(category);
         this.categoryRepository.save(category);
         return ResponseEntity.ok().build();
     }
@@ -91,6 +93,16 @@ public class AlbumManagementController {
 
         if (Objects.isNull(albumRequest.getAuthor())) {
             throw new NameException();
+        }
+    }
+
+    private void validateCategory(final Category category) {
+        if (Objects.isNull(category)) {
+            throw new CategoryException();
+        }
+
+        if (Objects.isNull(category.getName())) {
+            throw new CategoryException();
         }
     }
 
