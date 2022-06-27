@@ -19,12 +19,20 @@ public class AlbumManagementController {
     @PostMapping("/album")
     public ResponseEntity<?> saveAlbum(@RequestBody final AlbumRequest albumRequest) {
 
+        validateAlbumData(albumRequest);
+
+        this.albumManagementRepository.save(albumRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    private void validateAlbumData(final AlbumRequest albumRequest) {
         if (Objects.isNull(albumRequest.getName())) {
             throw new NameException();
         }
 
-        this.albumManagementRepository.save(albumRequest);
-        return ResponseEntity.ok().build();
+        if (Objects.isNull(albumRequest.getAuthor())) {
+            throw new NameException();
+        }
     }
 
 }
