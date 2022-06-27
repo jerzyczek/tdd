@@ -1,6 +1,7 @@
 package com.wsiz.albummanagement;
 
 import org.hamcrest.core.Is;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -22,6 +24,9 @@ class AlbummanagementApplicationTests {
 	@Autowired
 	private AlbumManagementRepository albumManagementRepository;
 
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
 	@BeforeEach
 	public void setup() {
 		final AlbumRequest albumRequest = new AlbumRequest();
@@ -29,6 +34,11 @@ class AlbummanagementApplicationTests {
 		albumRequest.setName("Name1");
 		albumRequest.setAuthor("Author1");
 		this.albumManagementRepository.save(albumRequest);
+	}
+
+	@AfterEach
+	public void execute() {
+		this.jdbcTemplate.execute("TRUNCATE TABLE album" );
 	}
 
 	@Test
@@ -122,6 +132,14 @@ class AlbummanagementApplicationTests {
 		ResponseEntity<AlbumRequest> response = this.albumManagementController.findAlbum("Name1");
 		assertThat(response.getBody().getName(), Is.is("Name1"));
 		assertThat(response.getBody().getAuthor(), Is.is("Author1"));
+	}
+
+	@Test
+	public void saveCategoryWithValidDataShouldReturn200StatusCode() {
+		final Category category = new Category();
+		category.setName("Name1");
+		ResponseEntity<?> response = this.albumManagementController.saveCategory(category);
+		assertThat(response.getStatusCode(), Is.is(HttpStatus.OK));
 	}
 
 }
